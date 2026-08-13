@@ -1,0 +1,424 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Preparedness Plan Schema",
+  "description": "Schema for structured emergency preparedness plans",
+  "type": "object",
+  "properties": {
+    "planMetadata": {
+      "type": "object",
+      "description": "Plan identification and metadata",
+      "properties": {
+        "planId": {
+          "type": "string",
+          "description": "Unique identifier for the plan"
+        },
+        "planType": {
+          "type": "string",
+          "enum": ["72-hour", "2-week", "extended"],
+          "description": "Type of preparedness plan"
+        },
+        "householdName": {
+          "type": "string",
+          "description": "Name or identifier for household"
+        },
+        "planDate": {
+          "type": "string",
+          "format": "date",
+          "description": "Date plan was created or updated"
+        },
+        "lastUpdated": {
+          "type": "string",
+          "format": "date",
+          "description": "Date plan was last updated"
+        },
+        "nextReviewDate": {
+          "type": "string",
+          "format": "date",
+          "description": "Date for next plan review"
+        },
+        "planAuthor": {
+          "type": "string",
+          "description": "Person or system that created the plan"
+        }
+      },
+      "required": ["planId", "planType", "householdName", "planDate"]
+    },
+    "household": {
+      "type": "object",
+      "description": "Household composition and information",
+      "properties": {
+        "householdSize": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of people in household"
+        },
+        "location": {
+          "type": "string",
+          "description": "Geographic location of household"
+        },
+        "householdMembers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Full name"
+              },
+              "age": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Age in years"
+              },
+              "relationship": {
+                "type": "string",
+                "description": "Relationship to primary household member"
+              },
+              "specialNeeds": {
+                "type": "string",
+                "description": "Special needs or considerations"
+              },
+              "emergencyContact": {
+                "type": "string",
+                "description": "Emergency contact information"
+              }
+            },
+            "required": ["name", "age", "relationship"]
+          }
+        },
+        "specialNeeds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Special household needs or considerations"
+        }
+      },
+      "required": ["householdSize", "location"]
+    },
+    "riskAssessment": {
+      "type": "object",
+      "description": "Risk assessment and prioritization",
+      "properties": {
+        "identifiedRisks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Name of risk"
+              },
+              "likelihood": {
+                "type": "string",
+                "enum": ["low", "medium", "high"],
+                "description": "Likelihood of risk occurring"
+              },
+              "severity": {
+                "type": "string",
+                "enum": ["minor", "moderate", "severe"],
+                "description": "Severity if risk occurs"
+              }
+            }
+          }
+        },
+        "priorityRisks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Highest priority risks to address"
+        }
+      }
+    },
+    "communicationPlan": {
+      "type": "object",
+      "description": "Communication and reunification plan",
+      "properties": {
+        "primaryMeetingPlace": {
+          "type": "string",
+          "description": "Primary meeting location"
+        },
+        "secondaryMeetingPlace": {
+          "type": "string",
+          "description": "Secondary meeting location"
+        },
+        "outOfAreaContact": {
+          "type": "string",
+          "description": "Out-of-area emergency contact"
+        },
+        "communicationMethods": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "Type of communication method"
+              },
+              "contact": {
+                "type": "string",
+                "description": "Contact information"
+              },
+              "priority": {
+                "type": "string",
+                "enum": ["primary", "secondary", "emergency"],
+                "description": "Priority level"
+              }
+            }
+          }
+        }
+      }
+    },
+    "supplies": {
+      "type": "object",
+      "description": "Emergency supplies and equipment",
+      "properties": {
+        "water": {
+          "type": "object",
+          "properties": {
+            "quantity": {
+              "type": "number",
+              "description": "Quantity in gallons"
+            },
+            "storageLocation": {
+              "type": "string",
+              "description": "Storage location"
+            },
+            "purificationMethod": {
+              "type": "string",
+              "description": "Primary water purification method"
+            },
+            "rotationSchedule": {
+              "type": "string",
+              "description": "Water rotation schedule"
+            }
+          }
+        },
+        "food": {
+          "type": "object",
+          "properties": {
+            "totalCalories": {
+              "type": "integer",
+              "description": "Total calories stored"
+            },
+            "caloriesPerPerson": {
+              "type": "integer",
+              "description": "Calories per person per day"
+            },
+            "storageLocation": {
+              "type": "string",
+              "description": "Food storage location"
+            },
+            "rotationSchedule": {
+              "type": "string",
+              "description": "Food rotation schedule"
+            },
+            "categories": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Category name"
+                  },
+                  "percentage": {
+                    "type": "number",
+                    "description": "Percentage of total calories"
+                  },
+                  "examples": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "medical": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "item": {
+                "type": "string",
+                "description": "Medical supply item"
+              },
+              "quantity": {
+                "type": "string",
+                "description": "Quantity to store"
+              }
+            }
+          }
+        },
+        "tools": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "item": {
+                "type": "string",
+                "description": "Tool or equipment item"
+              },
+              "quantity": {
+                "type": "string",
+                "description": "Quantity to store"
+              }
+            }
+          }
+        },
+        "documents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Important documents to include"
+        }
+      }
+    },
+    "evacuationPlan": {
+      "type": "object",
+      "description": "Evacuation routes and procedures",
+      "properties": {
+        "primaryRoute": {
+          "type": "object",
+          "properties": {
+            "fromHome": {
+              "type": "string",
+              "description": "Primary route from home"
+            },
+            "fromWork": {
+              "type": "string",
+              "description": "Primary route from work/school"
+            },
+            "destination": {
+              "type": "string",
+              "description": "Primary destination"
+            }
+          }
+        },
+        "secondaryRoute": {
+          "type": "object",
+          "properties": {
+            "fromHome": {
+              "type": "string",
+              "description": "Secondary route from home"
+            },
+            "fromWork": {
+              "type": "string",
+              "description": "Secondary route from work/school"
+            },
+            "destination": {
+              "type": "string",
+              "description": "Secondary destination"
+            }
+          }
+        },
+        "procedures": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Evacuation procedures"
+        },
+        "goBagItems": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Items to include in go-bag"
+        }
+      }
+    },
+    "specialConsiderations": {
+      "type": "object",
+      "description": "Special considerations for household members",
+      "properties": {
+        "children": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Considerations for children"
+        },
+        "elderly": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Considerations for elderly members"
+        },
+        "pets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Pet name"
+              },
+              "type": {
+                "type": "string",
+                "description": "Type of pet"
+              },
+              "emergencyContact": {
+                "type": "string",
+                "description": "Emergency contact for pet"
+              },
+              "supplies": {
+                "type": "string",
+                "description": "Supplies needed"
+              },
+              "specialConsiderations": {
+                "type": "string",
+                "description": "Special considerations"
+              }
+            }
+          }
+        }
+      }
+    },
+    "maintenance": {
+      "type": "object",
+      "description": "Plan maintenance and review schedule",
+      "properties": {
+        "monthlyReviewTasks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "quarterlyReviewTasks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "annualReviewTasks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "rotationSchedule": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "item": {
+                "type": "string"
+              },
+              "frequency": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["planMetadata", "household"]
+}

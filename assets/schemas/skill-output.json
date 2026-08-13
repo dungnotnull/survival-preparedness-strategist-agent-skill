@@ -1,0 +1,178 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Skill Output Schema",
+  "description": "Schema for structured outputs from Survival Preparedness Strategist",
+  "type": "object",
+  "properties": {
+    "response": {
+      "type": "string",
+      "description": "Human-readable response text"
+    },
+    "structuredOutput": {
+      "type": "object",
+      "description": "Structured data for programmatic use",
+      "properties": {
+        "planType": {
+          "type": "string",
+          "enum": ["preparedness-plan", "water-guidance", "food-storage", "first-aid", "pandemic", "community", "psychological"],
+          "description": "Type of structured output"
+        },
+        "data": {
+          "type": "object",
+          "description": "Structured data matching the plan type schema"
+        },
+        "checklist": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "item": {
+                "type": "string",
+                "description": "Checklist item"
+              },
+              "completed": {
+                "type": "boolean",
+                "description": "Whether item is completed"
+              },
+              "priority": {
+                "type": "string",
+                "enum": ["high", "medium", "low"],
+                "description": "Priority level"
+              }
+            }
+          }
+        },
+        "recommendations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "description": "Recommendation title"
+              },
+              "description": {
+                "type": "string",
+                "description": "Detailed description"
+              },
+              "priority": {
+                "type": "string",
+                "enum": ["critical", "high", "medium", "low"],
+                "description": "Priority level"
+              },
+              "actionable": {
+                "type": "boolean",
+                "description": "Whether recommendation is actionable"
+              },
+              "timeline": {
+                "type": "string",
+                "description": "Suggested timeline for implementation"
+              }
+            }
+          }
+        },
+        "resources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Resource name"
+              },
+              "type": {
+                "type": "string",
+                "enum": ["document", "tool", "guide", "contact", "organization"],
+                "description": "Resource type"
+              },
+              "url": {
+                "type": "string",
+                "description": "URL or contact information"
+              },
+              "description": {
+                "type": "string",
+                "description": "Resource description"
+              }
+            }
+          }
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["safety", "consultation", "limitation", "urgency"],
+                "description": "Warning type"
+              },
+              "message": {
+                "type": "string",
+                "description": "Warning message"
+              },
+              "severity": {
+                "type": "string",
+                "enum": ["critical", "high", "medium", "low"],
+                "description": "Warning severity"
+              }
+            }
+          }
+        }
+      }
+    },
+    "disclaimer": {
+      "type": "string",
+      "description": "Required disclaimer text"
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Confidence score (0-1)"
+    },
+    "requiresFollowUp": {
+      "type": "boolean",
+      "description": "Whether follow-up is recommended"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Response timestamp"
+        },
+        "model": {
+          "type": "string",
+          "description": "Model used for response"
+        },
+        "version": {
+          "type": "string",
+          "description": "Skill version"
+        },
+        "executionTime": {
+          "type": "number",
+          "description": "Execution time in milliseconds"
+        },
+        "tokenUsage": {
+          "type": "object",
+          "properties": {
+            "input": {
+              "type": "integer",
+              "description": "Input tokens"
+            },
+            "output": {
+              "type": "integer",
+              "description": "Output tokens"
+            },
+            "total": {
+              "type": "integer",
+              "description": "Total tokens"
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["response", "disclaimer"]
+}

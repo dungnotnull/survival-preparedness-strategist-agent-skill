@@ -1,0 +1,129 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Survival Preparedness Strategist Configuration Schema",
+  "description": "JSON schema for validating configuration files",
+  "type": "object",
+  "properties": {
+    "llm": {
+      "type": "object",
+      "description": "LLM model configuration",
+      "properties": {
+        "model": {
+          "type": "string",
+          "description": "Model identifier for the LLM"
+        },
+        "temperature": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Temperature parameter for response randomness"
+        },
+        "maxTokens": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 200000,
+          "description": "Maximum tokens in LLM response"
+        },
+        "timeout": {
+          "type": "integer",
+          "minimum": 1000,
+          "description": "Timeout in milliseconds for LLM calls"
+        },
+        "retryAttempts": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10,
+          "description": "Number of retry attempts for failed LLM calls"
+        }
+      },
+      "required": ["model", "temperature", "maxTokens", "timeout", "retryAttempts"]
+    },
+    "agents": {
+      "type": "object",
+      "description": "Agent execution configuration",
+      "properties": {
+        "maxConcurrentAgents": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 20,
+          "description": "Maximum number of concurrent agents"
+        },
+        "agentTimeout": {
+          "type": "integer",
+          "minimum": 1000,
+          "description": "Timeout in milliseconds for agent execution"
+        },
+        "contextWindowSize": {
+          "type": "integer",
+          "minimum": 1000,
+          "maximum": 2000000,
+          "description": "Maximum context window size in tokens"
+        },
+        "enableStreaming": {
+          "type": "boolean",
+          "description": "Enable streaming responses"
+        }
+      },
+      "required": ["maxConcurrentAgents", "agentTimeout", "contextWindowSize", "enableStreaming"]
+    },
+    "features": {
+      "type": "object",
+      "description": "Feature flags for modules",
+      "properties": {
+        "enablePandemicModule": {
+          "type": "boolean",
+          "description": "Enable pandemic preparedness module"
+        },
+        "enableFirstAidModule": {
+          "type": "boolean",
+          "description": "Enable first aid module"
+        },
+        "enableCommunityResilience": {
+          "type": "boolean",
+          "description": "Enable community resilience module"
+        },
+        "enablePsychologicalSupport": {
+          "type": "boolean",
+          "description": "Enable psychological support module"
+        },
+        "strictWeaponExclusion": {
+          "type": "boolean",
+          "description": "Strictly exclude weapons/violence content"
+        },
+        "requireDisclaimer": {
+          "type": "boolean",
+          "description": "Require disclaimer on all outputs"
+        }
+      },
+      "required": ["enablePandemicModule", "enableFirstAidModule", "enableCommunityResilience", "enablePsychologicalSupport", "strictWeaponExclusion", "requireDisclaimer"]
+    },
+    "skillRegistry": {
+      "type": "object",
+      "description": "Skill registry configuration",
+      "properties": {
+        "skillResolutionTimeout": {
+          "type": "integer",
+          "minimum": 100,
+          "description": "Timeout in milliseconds for skill resolution"
+        },
+        "maxSkillDepth": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10,
+          "description": "Maximum depth for skill resolution"
+        },
+        "enableSkillCaching": {
+          "type": "boolean",
+          "description": "Enable skill result caching"
+        },
+        "cacheTimeout": {
+          "type": "integer",
+          "minimum": 1000,
+          "description": "Cache timeout in milliseconds"
+        }
+      },
+      "required": ["skillResolutionTimeout", "maxSkillDepth", "enableSkillCaching", "cacheTimeout"]
+    }
+  },
+  "required": ["llm", "agents", "features", "skillRegistry"]
+}
